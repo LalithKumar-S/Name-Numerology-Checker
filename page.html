@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Sum Checker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .disclaimer {
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">
+        <h2>DISCLAIMER !!!</h2>
+        <h3>Superstitious beliefs are injurious to humanity</h3>
+    </div>
+    <div class="container">
+        <h2>Enter a Name</h2>
+        <input type="text" id="nameInput" placeholder="Enter name...">
+        <button onclick="checkName()">Check</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function getAlphabetSum(name) {
+            const alphabetMap = {};
+            let index = 1;
+            for (let charCode = 65; charCode <= 90; charCode++) {
+                alphabetMap[String.fromCharCode(charCode)] = index;
+                index = index < 9 ? index + 1 : 1; // Reset to 1 after 9
+            }
+            
+            let sum = 0;
+            for (let char of name.toUpperCase()) {
+                if (alphabetMap[char]) {
+                    sum += alphabetMap[char];
+                }
+            }
+            
+            while (sum > 9) {
+                sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+            }
+            
+            return sum;
+        }
+
+        function checkName() {
+            const inputName = document.getElementById("nameInput").value;
+            const sum = getAlphabetSum(inputName);
+            const resultText = sum % 2 !== 0 ? `${sum} - ${inputName} is Good` : `${sum} - Not Good`;
+            document.getElementById("result").innerText = resultText;
+        }
+    </script>
+</body>
+</html>
